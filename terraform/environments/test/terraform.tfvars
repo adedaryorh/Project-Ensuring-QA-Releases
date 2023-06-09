@@ -8,6 +8,7 @@ tenant_id       = "d879c1a3-4270-4d76-a9b6-dcd67e3c53dc"
 location         = "East US"
 resource_group   = "ensuring-qa-release-rg"
 application_type = "ev-eastus-001"
+webAppName       ="ensuring-qa-releases-adedayo-webapi"
 
 # VM
 vm_admin_username = "adedayo"
