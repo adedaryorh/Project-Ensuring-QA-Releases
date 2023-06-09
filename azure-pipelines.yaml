@@ -263,8 +263,6 @@ stages:
           testResultsFiles: '*.xml'
           mergeTestResults: true
           testRunTitle: 'Publish Newman test results'
-
-
           
 #--------------------------------------------#  
 # TESTING STAGE
