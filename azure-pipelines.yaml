@@ -46,12 +46,19 @@ stages:
       name: tfvardef
       inputs:
         secureFile: 'terraform.tfvars'
-    - task: InstallSSHKey@0
-      displayName: InstallSSHKey@0
+    - task: DownloadSecureFile@1
+      displayName: 'Download public ssh Key'
+      name: qa_vm_public_key
       inputs:
-         knownHostsEntry: 'known_hosts'
-         sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDdkj59isbwyZFbsXZ49TZPMvWC+yOAZ2N+q1UxqWxYkVP91sZzKju4MGhKgkxV6kFEbmEic7weocRX2954638unbq5d+bzVCXtk9xxEaLsw5XRNZR6bJ1kuXyNT5TDKUdxAPUSW7jRtHrAUOhjM06dNhgSqHTQdZGWPVf3tdtOQkppDaEEbQqNZhEmagD1ENadjTDsPwQHp9UPSwUYC1oMgldT6MJ5zSD960rD4WWfuN6o0/FfOs9FJ77pCmi707CGMSfrGgNQAok8mwoHgyySnFYAYhM5lFyO/S4IW9Eu4jXPep9oYhmR1+K+1lGafy0yVk/avblD5cQBZDnIQOL8EfYcbhjm5I+cCAYb5h1f9FdDghGCLV0UoyQthTdkpe1EcVXjPCpgiGKDrtPXzMC9RHLy15UopiWGRJg10IMl2eYnqmq5gviM2wQbsDAmmSCHHKADl4NsJG3FmPLDwgaYc6b2mts7nYQ+MKaDxD2cTZDppmBX4ct5fGrhi2SBxk3MLLCq5/kpIHGPMGCLQ4hkaCg1aSE81D3BWx0vh9JGYSNWyxA+iX4xkEgYrXRyJGQ+WHfoXtsWwGAXUhyHlVjkDc72B1G72hjR0BBC/iv6NiCekzlIyzFLQzfM8KbBnui8qkEm7TE9feHN7rdoiZtcPEg15MtRe7HWGxGMHDmCgw== Welcome@Adedayo-MBP'
-         sshKeySecureFile: 'az_qa_id_rsa'
+        secureFile: $(vm_public_key)
+    - task: Bash@3
+      displayName: 'Copy public ssh key to vm'
+      inputs:
+        targetType: 'inline'
+        script: |
+          mkdir ~/.ssh/
+          cp $(Agent.TempDirectory)/$(vm_public_key) ~/.ssh/$(vm_public_key)
+          chmod 400 ~/.ssh/$(vm_public_key)
     - task: Bash@3
       displayName: 'Copy terraform.tfvars to vm'
       inputs:
