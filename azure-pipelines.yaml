@@ -40,7 +40,7 @@ stages:
   - job: provision_infrastructure
     displayName: 'Provisioning Infrastructure'
     pool:
-      vmImage: $(vmImageName)
+      name: myagentPool
     steps:
     - task: DownloadSecureFile@1
       displayName: 'Download terraform.tfvars'
