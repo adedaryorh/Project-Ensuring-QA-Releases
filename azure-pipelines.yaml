@@ -2,50 +2,35 @@ name: Azure Pipelines
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
-trigger:
-  branches:
-    include:
-    - main
-  paths:
-    exclude:
-    - README.md
-    - .gitignore
-    - images
+variables:
+  - group: azsecret
 
 variables:
   python.version: '3.7.6'
   # Azure Resource Manager service connection for pipelines
   serviceConnectionTerraform: 'service-connection-tf'
   serviceConnectionWebApp: 'service-connection-webapp'
-
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
-  # Web app name
   webAppName: 'ensuring-qa-releases-adedayo-webapi'
-  # Agent VM image name
   vmImageName: 'ubuntu-18.04'
-  # Environment name
   environmentName: 'TEST'
-  # VM Public Key
   vm_public_key: 'az_qa_id_rsa.pub'
-
-stages:
 #--------------------------------------------#  
 # PROVISION STAGE
 #--------------------------------------------#
+stages:
 - stage: Provision
-
-  displayName: 'Provision'
   jobs:
-  - job: provision_infrastructure
+  - job: provision_infrastructure_terraform
     displayName: 'Provisioning Infrastructure'
     pool: myagentPool
     steps:
     - task: DownloadSecureFile@1
-      displayName: 'Download terraform.tfvars'
-      name: tfvardef
+      displayName: 'Download azsecret.conf file'
+      name: azsecret
       inputs:
-        secureFile: 'terraform.tfvars'
+        secureFile: 'azsecret.conf'
     - task: DownloadSecureFile@1
       displayName: 'Download public ssh Key'
       name: qa_vm_public_key
@@ -77,41 +62,51 @@ stages:
       displayName: 'Install Terraform'
       inputs:
         terraformVersion: 'latest'
-    - task: TerraformTaskV1@0
-      displayName: 'Terraform Init'
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        backendServiceArm: $(serviceConnectionTerraform)
-        backendAzureRmResourceGroupName: 'ensuring-qa-release-rg'
-        backendAzureRmStorageAccountName: 'tstate12855'
-        backendAzureRmContainerName: 'tstate'
-        backendAzureRmKey: 'terraform.tfstate'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-    - task: TerraformTaskV1@0
+    - task: TerraformCLI@0
+          displayName: Terraform Init
+          inputs:
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+            commandOptions: '-backend-config=$(azsecret.secureFilePath)'
+            backendType: 'azurerm'
+            backendServiceArm: 'service-connection-azurerm'
+            backendAzureRmResourceGroupName: 'ensuring-qa-release-rg'
+            backendAzureRmStorageAccountName: 'tstate12855'
+            backendAzureRmContainerName: 'tfstate'
+            allowTelemetryCollection: true
+    - task: TerraformCLI@0
       displayName: Terraform Validate
       inputs:
         provider: 'azurerm' 
         command: 'validate'
         allowTelemetryCollection: true
-    - task: TerraformTaskV1@0
-      displayName: 'Terraform Plan'
-      inputs:   
-        provider: 'azurerm'     
-        command: 'plan'
-        environmentServiceName: 'myServCon'
-        allowTelemetryCollection: true
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
-    - task: TerraformTaskV1@0
-      displayName: 'Terraform Apply'
-      inputs:
-        provider: 'azurerm'
-        command: 'apply'
-        commandOptions: |
-          -auto-approve
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-        environmentServiceNameAzureRM: $(serviceConnectionTerraform)
-        allowTelemetryCollection: true
+    - task: AzureCLI@1
+          displayName: Set Environment Variables for Terraform
+          inputs:
+            azureSubscription: service-connection-azurerm
+            scriptLocation: inlineScript
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+            addSpnToEnvironment: true
+            inlineScript: |
+                export ARM_CLIENT_ID=$(client_id)
+                export ARM_CLIENT_SECRET=$(client_secret)
+                export ARM_SUBSCRIPTION_ID=$(subscription_id)
+                export ARM_TENANT_ID=$(tenant_id)
+                
+    - task: TerraformCLI@0
+          displayName: 'Terraform Plan'
+          inputs:        
+              command: 'plan'
+              environmentServiceName: 'service-connection-azurerm'
+              allowTelemetryCollection: true
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+    - task: TerraformCLI@0
+          displayName: 'Terraform Plan'
+          inputs:        
+              command: 'plan'
+              environmentServiceName: 'service-connection-azurerm'
+              allowTelemetryCollection: true
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
 #--------------------------------------------#  
 # BUILD STAGE
 #--------------------------------------------#
