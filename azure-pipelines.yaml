@@ -30,11 +30,11 @@ stages:
             knownHostsEntry: 'known_hosts'
             sshPublicKey: '$(public_key)'
             sshKeySecureFile: 'az_qa_id_rsa'
-        - task: TerraformInstaller@0
+        - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
           displayName: Install Terraform
           inputs:
-            terraformVersion: '1.2.9'
-        - task: TerraformCLI@0
+            terraformVersion: 'latest'
+        - task: TerraformTaskV1@0
           displayName: Terraform Init
           inputs:
             command: 'init'
@@ -47,7 +47,7 @@ stages:
             backendAzureRmContainerName: 'tfstate'
             allowTelemetryCollection: true
           
-        - task: TerraformCLI@0
+        - task: TerraformTaskV1@0
           displayName: Terraform Validate
           inputs:
             command: 'validate'
@@ -66,7 +66,7 @@ stages:
                 export ARM_SUBSCRIPTION_ID=$(subscription_id)
                 export ARM_TENANT_ID=$(tenant_id)
           
-        - task: TerraformCLI@0
+        - task: TerraformTaskV1@0
           displayName: 'Terraform Plan'
           inputs:        
               command: 'plan'
@@ -74,7 +74,7 @@ stages:
               allowTelemetryCollection: true
               workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
               
-        - task: TerraformCLI@0
+        - task: TerraformTaskV1@0
           displayName: Terraform Apply
           inputs:
             command: 'apply'
