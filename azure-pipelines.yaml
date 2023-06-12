@@ -95,18 +95,6 @@ stages:
         command: 'validate'
         allowTelemetryCollection: true
     - task: TerraformTaskV1@0
-      displayName: Set Environment Variables for Terraform
-      inputs:
-        azureSubscription: myServCon
-        scriptLocation: inlineScript
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
-        addSpnToEnvironment: true
-        inlineScript: |
-            export ARM_CLIENT_ID=$(client_id)
-            export ARM_CLIENT_SECRET=$(client_secret)
-            export ARM_SUBSCRIPTION_ID=$(subscription_id)
-            export ARM_TENANT_ID=$(tenant_id) 
-    - task: TerraformTaskV1@0
       displayName: 'Terraform Plan'
       inputs:   
         provider: 'azurerm'     
