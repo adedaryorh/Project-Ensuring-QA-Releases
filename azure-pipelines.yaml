@@ -1,11 +1,17 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    exclude:
+    - README.md
+    - .gitignore
+    - images/
+    
 name: Azure Pipeline
-
 variables:
   - group: azsecret
-
     #vmImageName: 'ubuntu-latest'
-
-
 stages:
   - stage: Provision
     jobs:
@@ -24,7 +30,7 @@ stages:
           inputs:
             knownHostsEntry: 'known_hosts'
             sshPublicKey: '$(public_key)'
-            sshKeySecureFile: 'az_qa_id_rsa'
+            sshKeySecureFile: 'az_eqr_id_rsa'
         - task: TerraformInstaller@0
           displayName: Install Terraform
           inputs:
