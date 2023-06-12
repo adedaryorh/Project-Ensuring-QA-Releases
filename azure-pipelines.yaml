@@ -74,7 +74,7 @@ stages:
           cd $(System.DefaultWorkingDirectory)/terraform/environments/test
           rm -rf .terraform
           rm -rf .terraform.lock.hcl
-    - task: TerraformInstaller@0
+    - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
       displayName: 'Install Terraform'
       inputs:
         terraformVersion: 'latest'
@@ -95,7 +95,7 @@ stages:
         provider: 'azurerm' 
         command: 'validate'
         allowTelemetryCollection: true
-    - task: TerraformTaskV1@1
+    - task: TerraformTaskV1@0
       displayName: Set Environment Variables for Terraform
       inputs:
         azureSubscription: myServCon
