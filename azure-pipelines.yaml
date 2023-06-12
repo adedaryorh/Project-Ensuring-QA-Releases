@@ -45,6 +45,7 @@ stages:
             backendAzureRmResourceGroupName: 'ensuring-qa-release-rg'
             backendAzureRmStorageAccountName: 'tstate12855'
             backendAzureRmContainerName: 'tfstate'
+            backendAzureRmKey: 'terraform.tfstate'
             allowTelemetryCollection: true
           
         - task: TerraformTaskV1@0
