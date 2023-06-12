@@ -1,8 +1,17 @@
 # Azure GUIDS
-variable "subscription_id" {}
-variable "client_id" {}
-variable "client_secret" {}
-variable "tenant_id" {}
+variable "subscription_id" {
+  default = "b36c07e6-4e1b-48b7-9e22-ba384d37833a"
+}
+variable "client_id" {
+  default = "3c9068b9-c7b3-4518-9398-8bff15fa6500"
+}
+variable "client_secret" {
+  default = "7ae8Q~t6-weig4nRZJGnlUVsBPY.6ymckDCQMafZ"
+}
+variable "tenant_id" {
+  default = "d879c1a3-4270-4d76-a9b6-dcd67e3c53dc"
+}
+
 # Resource Group/Location
 variable "location" {
   default = "eastus"
