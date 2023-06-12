@@ -41,7 +41,7 @@ stages:
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
             commandOptions: '-backend-config=$(azsecret.secureFilePath)'
             backendType: 'azurerm'
-            backendServiceArm: 'service-connection-azurerm'
+            backendServiceArm: 'service-connection-tf'
             backendAzureRmResourceGroupName: 'ensuring-qa-release-rg'
             backendAzureRmStorageAccountName: 'tstate12855'
             backendAzureRmContainerName: 'tfstate'
@@ -56,7 +56,7 @@ stages:
         - task: AzureCLI@1
           displayName: Set Environment Variables for Terraform
           inputs:
-            azureSubscription: service-connection-azurerm
+            azureSubscription: ensuring-qa-release-rg
             scriptLocation: inlineScript
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
             addSpnToEnvironment: true
