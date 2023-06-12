@@ -56,7 +56,7 @@ stages:
         - task: AzureCLI@1
           displayName: Set Environment Variables for Terraform
           inputs:
-            azureSubscription: ensuring-qa-release-rg
+            azureSubscription: 'service-connection-tf'
             scriptLocation: inlineScript
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
             addSpnToEnvironment: true
@@ -70,7 +70,7 @@ stages:
           displayName: 'Terraform Plan'
           inputs:        
               command: 'plan'
-              environmentServiceName: 'service-connection-azurerm'
+              environmentServiceName: 'service-connection-tf'
               allowTelemetryCollection: true
               workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
               
@@ -78,7 +78,7 @@ stages:
           displayName: Terraform Apply
           inputs:
             command: 'apply'
-            environmentServiceName: 'service-connection-azurerm'
+            environmentServiceName: 'service-connection-tf'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
             allowTelemetryCollection: true
 
