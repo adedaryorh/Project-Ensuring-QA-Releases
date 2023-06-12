@@ -4,9 +4,6 @@ name: Azure Pipelines
 # https://aka.ms/yaml
 variables:
   - group: azsecret
-
-variables:
-  python.version: '3.7.6'
   # Azure Resource Manager service connection for pipelines
   serviceConnectionTerraform: 'service-connection-tf'
   serviceConnectionWebApp: 'service-connection-webapp'
