@@ -20,16 +20,12 @@ variables:
 
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
-
   # Web app name
   webAppName: 'ensuring-qa-releases-adedayo-webapi'
-
   # Agent VM image name
   vmImageName: 'ubuntu-18.04'
-
   # Environment name
   environmentName: 'TEST'
-
   # VM Public Key
   vm_public_key: 'az_qa_id_rsa.pub'
 
@@ -51,20 +47,17 @@ stages:
       name: tfvardef
       inputs:
         secureFile: 'terraform.tfvars'
-
     - task: Bash@3
       displayName: 'Copy terraform.tfvars to vm'
       inputs:
         targetType: 'inline'
         script: |
           cp $(Agent.TempDirectory)/terraform.tfvars $(System.DefaultWorkingDirectory)/terraform/environments/test
-
     - task: DownloadSecureFile@1
       displayName: 'Download public ssh Key'
       name: qa_vm_public_key
       inputs:
         secureFile: $(vm_public_key)
-
     - task: Bash@3
       displayName: 'Copy public ssh key to my vm'
       inputs:
@@ -73,7 +66,6 @@ stages:
           mkdir ~/.ssh/
           cp $(Agent.TempDirectory)/$(vm_public_key) ~/.ssh/$(vm_public_key)
           chmod 400 ~/.ssh/$(vm_public_key)
-
     - task: Bash@3
       displayName: 'Delete Terraform files from previous run'
       inputs:
@@ -86,11 +78,7 @@ stages:
       displayName: 'Install Terraform'
       inputs:
         terraformVersion: 'latest'
-
-    # Run Terraform Init on the pipeline agent 
-    # ToDo: Replace the resource group name, storage account name, and container name below
-
-    - task: TerraformCLI@0
+    - task: TerraformTaskV1@0
       displayName: 'Terraform Init'
       inputs:
         provider: 'azurerm'
@@ -101,15 +89,13 @@ stages:
         backendAzureRmContainerName: 'tstate'
         backendAzureRmKey: 'terraform.tfstate'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-
-    - task: TerraformCLI@0
+    - task: TerraformTaskV1@0
       displayName: Terraform Validate
       inputs:
         provider: 'azurerm' 
         command: 'validate'
         allowTelemetryCollection: true
-
-    - task: AzureCLI@1
+    - task: TerraformTaskV1@1
       displayName: Set Environment Variables for Terraform
       inputs:
         azureSubscription: myServCon
@@ -121,8 +107,7 @@ stages:
             export ARM_CLIENT_SECRET=$(client_secret)
             export ARM_SUBSCRIPTION_ID=$(subscription_id)
             export ARM_TENANT_ID=$(tenant_id) 
-    
-    - task: TerraformCLI@0
+    - task: TerraformTaskV1@0
       displayName: 'Terraform Plan'
       inputs:   
         provider: 'azurerm'     
@@ -130,8 +115,7 @@ stages:
         environmentServiceName: 'myServCon'
         allowTelemetryCollection: true
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
-
-    - task: TerraformCLI@0
+    - task: TerraformTaskV1@0
       displayName: 'Terraform Apply'
       inputs:
         provider: 'azurerm'
