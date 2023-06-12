@@ -5,14 +5,14 @@ name: Azure Pipelines
 variables:
   - group: azsecret
   # Azure Resource Manager service connection for pipelines
-  serviceConnectionTerraform: 'service-connection-tf'
-  serviceConnectionWebApp: 'service-connection-webapp'
-  # Project root folder. Point to the folder containing manage.py file.
-  projectRoot: $(System.DefaultWorkingDirectory)
-  webAppName: 'ensuring-qa-releases-adedayo-webapi'
-  vmImageName: 'ubuntu-18.04'
-  environmentName: 'TEST'
-  vm_public_key: 'az_qa_id_rsa.pub'
+   #serviceConnectionTerraform: 'service-connection-tf'
+   #serviceConnectionWebApp: 'service-connection-webapp'
+   #Project root folder. Point to the folder containing manage.py file.
+   #projectRoot: $(System.DefaultWorkingDirectory)
+   #webAppName: 'ensuring-qa-releases-adedayo-webapi'
+   #vmImageName: 'ubuntu-18.04'
+   #environmentName: 'TEST'
+   #vm_public_key: 'az_qa_id_rsa.pub'
 #--------------------------------------------#  
 # PROVISION STAGE
 #--------------------------------------------#
