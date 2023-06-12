@@ -6,7 +6,7 @@ trigger:
     exclude:
     - README.md
     - .gitignore
-    - images/
+    - images
     
 name: Azure Pipeline
 variables:
@@ -17,20 +17,19 @@ stages:
     jobs:
       - job: TerrafromTasks
         displayName: Terraform Tasks
-        pool:
-          vmImage: 'ubuntu-latest'
+        pool: myagentPool
         steps:
         - task: DownloadSecureFile@1
           displayName: Download azsecret.conf file
           name: azsecret
           inputs:
-            secureFile: 'azsecret.conf'
+            secureFile: 'azsecret.config'
         - task: InstallSSHKey@0
           displayName: Install SSH Key
           inputs:
             knownHostsEntry: 'known_hosts'
             sshPublicKey: '$(public_key)'
-            sshKeySecureFile: 'az_eqr_id_rsa'
+            sshKeySecureFile: 'az_qa_id_rsa'
         - task: TerraformInstaller@0
           displayName: Install Terraform
           inputs:
