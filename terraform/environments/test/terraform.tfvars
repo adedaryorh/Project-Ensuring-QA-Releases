@@ -6,7 +6,7 @@ client_secret = "7ae8Q~t6-weig4nRZJGnlUVsBPY.6ymckDCQMafZ"
 tenant_id = "d879c1a3-4270-4d76-a9b6-dcd67e3c53dc"
 
 # Resource Group/Location
-location         = "East US"
+location         = "eastus"
 resource_group   = "ensuring-qa-release-rg"
 application_type = "ev-eastus-001"
 webAppName       = "ensuring-qa-releases-adedayo-webapi"
@@ -17,8 +17,8 @@ vm_public_key     = "/Users/Welcome/Desktop/.ssh/az_qa_id_rsa.pub"
 
 # Network
 virtual_network_name = "qa-virtual-net"
-address_space        = ["10.0.0.0/22"]
-address_prefix_test  = "10.0.0.0/24"
+address_space        = ["10.5.0.0/16"]
+address_prefix_test  = "10.5.1.0/24"
 
 
 # Tags
