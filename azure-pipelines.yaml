@@ -42,6 +42,11 @@ stages:
     pool:
       name: myagentPool
     steps:
+    - task: InstallSSHKey@0
+       inputs:
+         knownHostsEntry: 'known_hosts'
+         sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDdkj59isbwyZFbsXZ49TZPMvWC+yOAZ2N+q1UxqWxYkVP91sZzKju4MGhKgkxV6kFEbmEic7weocRX2954638unbq5d+bzVCXtk9xxEaLsw5XRNZR6bJ1kuXyNT5TDKUdxAPUSW7jRtHrAUOhjM06dNhgSqHTQdZGWPVf3tdtOQkppDaEEbQqNZhEmagD1ENadjTDsPwQHp9UPSwUYC1oMgldT6MJ5zSD960rD4WWfuN6o0/FfOs9FJ77pCmi707CGMSfrGgNQAok8mwoHgyySnFYAYhM5lFyO/S4IW9Eu4jXPep9oYhmR1+K+1lGafy0yVk/avblD5cQBZDnIQOL8EfYcbhjm5I+cCAYb5h1f9FdDghGCLV0UoyQthTdkpe1EcVXjPCpgiGKDrtPXzMC9RHLy15UopiWGRJg10IMl2eYnqmq5gviM2wQbsDAmmSCHHKADl4NsJG3FmPLDwgaYc6b2mts7nYQ+MKaDxD2cTZDppmBX4ct5fGrhi2SBxk3MLLCq5/kpIHGPMGCLQ4hkaCg1aSE81D3BWx0vh9JGYSNWyxA+iX4xkEgYrXRyJGQ+WHfoXtsWwGAXUhyHlVjkDc72B1G72hjR0BBC/iv6NiCekzlIyzFLQzfM8KbBnui8qkEm7TE9feHN7rdoiZtcPEg15MtRe7HWGxGMHDmCgw== Welcome@Adedayo-MBP'
+         sshKeySecureFile: 'az_qa_id_rsa'
     - task: DownloadSecureFile@1
       displayName: 'Download terraform.tfvars'
       name: tfvardef
@@ -53,12 +58,6 @@ stages:
         targetType: 'inline'
         script: |
           cp $(Agent.TempDirectory)/terraform.tfvars $(System.DefaultWorkingDirectory)/terraform/environments/test
-   
-    - task: InstallSSHKey@0
-       inputs:
-         knownHostsEntry: 'known_hosts'
-         sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDdkj59isbwyZFbsXZ49TZPMvWC+yOAZ2N+q1UxqWxYkVP91sZzKju4MGhKgkxV6kFEbmEic7weocRX2954638unbq5d+bzVCXtk9xxEaLsw5XRNZR6bJ1kuXyNT5TDKUdxAPUSW7jRtHrAUOhjM06dNhgSqHTQdZGWPVf3tdtOQkppDaEEbQqNZhEmagD1ENadjTDsPwQHp9UPSwUYC1oMgldT6MJ5zSD960rD4WWfuN6o0/FfOs9FJ77pCmi707CGMSfrGgNQAok8mwoHgyySnFYAYhM5lFyO/S4IW9Eu4jXPep9oYhmR1+K+1lGafy0yVk/avblD5cQBZDnIQOL8EfYcbhjm5I+cCAYb5h1f9FdDghGCLV0UoyQthTdkpe1EcVXjPCpgiGKDrtPXzMC9RHLy15UopiWGRJg10IMl2eYnqmq5gviM2wQbsDAmmSCHHKADl4NsJG3FmPLDwgaYc6b2mts7nYQ+MKaDxD2cTZDppmBX4ct5fGrhi2SBxk3MLLCq5/kpIHGPMGCLQ4hkaCg1aSE81D3BWx0vh9JGYSNWyxA+iX4xkEgYrXRyJGQ+WHfoXtsWwGAXUhyHlVjkDc72B1G72hjR0BBC/iv6NiCekzlIyzFLQzfM8KbBnui8qkEm7TE9feHN7rdoiZtcPEg15MtRe7HWGxGMHDmCgw== Welcome@Adedayo-MBP'
-         sshKeySecureFile: 'az_qa_id_rsa'
     - task: Bash@3
       displayName: 'Delete Terraform files from previous run'
       inputs:
