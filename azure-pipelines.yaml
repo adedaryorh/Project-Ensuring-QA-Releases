@@ -15,7 +15,7 @@ trigger:
 variables:
   python.version: '3.7.6'
   # Azure Resource Manager service connection for pipelines
-  serviceConnectionTerraform: 'service-connection-terraform'
+  serviceConnectionTerraform: 'service-connection-tf'
   serviceConnectionWebApp: 'service-connection-webapp'
 
   # Project root folder. Point to the folder containing manage.py file.
