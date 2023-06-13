@@ -19,9 +19,8 @@ resource "azurerm_linux_virtual_machine" "test" {
   admin_username      = "Shakirat"
   network_interface_ids = [azurerm_network_interface.test.id,]
   admin_ssh_key {
-    username   = "Shakirat"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC2qhmHVNrY/aFNlZkWc0DNvSIvR2zfUzS9LxowSCu1YByWMJhV+3ef4gZgLnXCE4OLHHJy1nH9FtchWEfu3riVga6d8ondKNmVjD3RWbElpDDdwpZDnt/JnFuufj9eri/t//Tk0zX+JAz0KCbyf+OEuLgZfuvof6UDFjhUON/5VBv0zw8nxF3vwkUVpdnb/O93w6ysrgjmZMcsCDnfOB0wQOg+6EWm+e8OgP3Wfr4GBOZh5aR6KKAU47D6xTWhtSKm7DB6wY3aV4a+QvOAAp1kCaasJSOPo/XEaoxIKri2DV3eOUQmiqSk8+JqWs3pc0h6bQWOZ5mM9ZQV7i4FVaSKM+vU/Dbnoiln8qI+FXPGRlzGLwHHdCSuQ2d0VHtr8BdwkLql34D5NOTgs/BWbLzfh8YmM+V2/8W+m46xxSN7xsTIU020kBJYHD8H5/fxKcFne9zUn8jAgeg8RrqR/VTapPIcDHD28MXs1C1bIPx7Au1voCaOkkMQNdKSz37+vJDPldNtq1CuYsfy2tbD1DeDJwQcMo9VbQ5Cjr8fKvo0I469mz2gJUUAgkNQdaithy7mmZ9yJ+xFA0AbXQLw0cddaO22biU34v7R87sbEWLM/zhJy4wWoNTTHWhW/ZfTOMRo60OOxVqfaog8yw71pqjAkO2UNUaAfojJ53TJjOWABQ== bwitl@Yinka"
-    #public_key = file(var.vm_public_key) 
+    username   = "adedaryorh"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCmbKz2TxGbZnbkbjbqt1FRRVnHwXPJP6NDkdXcL2OyxR/5NNzWaoKGUQRDJYzlFbx5teUvnMaSb8LLpXMKRHrRavbfaqD8GJAvzoV+Tgt0RSxiimzwRuyeA8LIRh/oOYWw/iZGrwKpM0yAq2xeoC52x+Zm7W0i3Qij/5W8sYis9zEWKv6+wxTwQFRhneIZNmkC320lGC7/iz8bUIvvWM2M6fwRyxScECfMXWy6CM4XfuqsTqCcAiODvcYeFJgVYEtAOfz48BNtHHnZLcyVNeuNWgfw43arnclL2u/xApNnAelUtNSew4K0Bheegw51E7DcA6ma+nOStEdfDlIyBflxW42TEXKwl4dHHDnwcw1n+/luJ5FKyYqi1x8O8cWYuFIfBenwWzvEQMg/MR5NypzTzi0WIpe0wHIstcKrAIC4jAUfmRzYqLy2D2cYzinVUckedUMgS+/iYHmkEHnsqMDbHwIU9adeuERdQfhFC2WLLeYtn08qUBYEibBcI6ZKrorcDkwaB8emtMmMBCbU4sNpgNdrTZA5NTQ11aB0QeDkYDy9djDiWTujWqWGa75OwJXmmyvbNKLJ93g3Ln5EPXr0ncnQyR4Ey6OngAq9xKeENTHZyxa9VgAy98GjWQKPIp/YQgcAKoTn1ayfxXUGtUCj2YsfmBaP0z0IPH2eIcgiWQ== Welcome@Adedayo-MBP"
      
   }
   os_disk {
