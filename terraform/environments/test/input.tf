@@ -7,24 +7,13 @@ variable "tenant_id" {}
 # Resource Group/Location
 variable "location" {}
 variable "resource_group" {}
-variable "webapp_name" {
-  default = "qa-monitoring"
-}
-
 variable "application_type" {}
 
 # Network
 variable virtual_network_name {}
-variable "address_prefix_test" {}
-variable "address_space" {}
+variable address_prefix_test {}
+variable address_space {}
 
-# Virtual Machine
-variable "vm_admin_username" {
-  default = "adedaryorh"
-}
-variable "vm_public_key" {}
 
-# Tags
-variable "project" {}
 
 
