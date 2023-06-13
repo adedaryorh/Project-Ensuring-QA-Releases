@@ -9,11 +9,7 @@ tenant_id       = "d879c1a3-4270-4d76-a9b6-dcd67e3c53dc"
 location         = "eastus"
 resource_group   = "ensuring-qa-release-rg"
 application_type = "myApplication"
-webAppName       = "ensuring-qa-releases-adedayo-webapi"
-
-# VM
-vm_admin_username = "adedayo"
-vm_public_key     = "/Users/Welcome/Desktop/.ssh/az_qa_id_rsa.pub"
+# webAppName       = "ensuring-qa-releases-adedayo-webapi"
 
 # Network
 virtual_network_name = "qa-virtual-net"
