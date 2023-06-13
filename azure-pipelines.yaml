@@ -2,10 +2,6 @@ name: Azure Pipeline
 
 variables:
   - group: azsecret
-
-  
-
-
 stages:
   - stage: Provision
     jobs:
@@ -28,7 +24,7 @@ stages:
           displayName: Install Terraform
           inputs:
             terraformVersion: 'latest'
-        - task: TerraformCLI@0
+        - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
           displayName: Terraform Init
           inputs:
             command: 'init'
