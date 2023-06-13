@@ -39,14 +39,14 @@ stages:
           inputs:
             command: 'init'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
-            #commandOptions: '-backend-config=$(azsecret.secureFilePath)'
+            commandOptions: '-backend-config=$(azsecret.secureFilePath)'
             backendType: 'azurerm'
             backendServiceArm: 'service-connection-tf'
             backendAzureRmResourceGroupName: 'ensuring-qa-release-rg'
             backendAzureRmStorageAccountName: 'tstate12855'
             backendAzureRmContainerName: 'tfstate'
             backendAzureRmKey: 'terraform.tfstate'
-            #allowTelemetryCollection: true
+            allowTelemetryCollection: true
             #backendConfigFile: '$(azsecret.secureFilePath)'
           
         - task: TerraformTaskV1@0
