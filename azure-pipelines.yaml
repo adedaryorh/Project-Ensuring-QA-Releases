@@ -1,3 +1,12 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    exclude:
+    - README.md
+    - .gitignore
+    - images/
 name: Azure Pipeline
 
 variables:
@@ -28,7 +37,7 @@ stages:
           displayName: Terraform Init
           inputs:
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+            workingDirectory: '$(System.DefaultWorkingDirectory)\terraform'
             commandOptions: '-backend-config=$(azsecret.secureFilePath)'
             backendType: 'azurerm'
             backendServiceArm: 'service-connection-azurerm'
@@ -48,7 +57,7 @@ stages:
           inputs:
             azureSubscription: service-connection-azurerm
             scriptLocation: inlineScript
-            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+            workingDirectory: '$(System.DefaultWorkingDirectory)\terraform'
             addSpnToEnvironment: true
             inlineScript: |
                 export ARM_CLIENT_ID=$(client_id)
@@ -62,14 +71,14 @@ stages:
               command: 'plan'
               environmentServiceName: 'service-connection-azurerm'
               allowTelemetryCollection: true
-              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+              workingDirectory: '$(System.DefaultWorkingDirectory)\terraform'
               
         - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
           displayName: Terraform Apply
           inputs:
             command: 'apply'
             environmentServiceName: 'service-connection-azurerm'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+            workingDirectory: '$(System.DefaultWorkingDirectory)\terraform'
             allowTelemetryCollection: true
 
   - stage: Build
