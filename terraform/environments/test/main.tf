@@ -8,25 +8,19 @@ provider "azurerm" {
 
 terraform {
   backend "azurerm" {
-    resource_group_name  = "ensuring-qa-release-rg"
-    storage_account_name = "tstate12855"
-    container_name       = "tstate"
-    key                  = "terraform.tfstate"
-    access_key           = "1YUfRCjhjSFJ0GwpQBhaX2BoGN9sV1ouKc6sgT3tUSEN76n7Uko83RgVUBsBB6ItMKY+o6q5uAJm+AStsKPrJQ=="
+    storage_account_name = ""
+    container_name       = ""
+    key                  = ""
+    access_key           = ""
   }
 }
 
-data "azurerm_resource_group" "test" {
-  name = "tfstate"
+
+module "resource_group" {
+  source         = "../../modules/resource_group"
+  resource_group = var.resource_group
+  location       = var.location
 }
-
-
-#module "resource_group" {
- # source         = "../../modules/resource_group"
-  #resource_group = var.resource_group
- # location       = var.location
-}
-
 module "network" {
   source               = "../../modules/network"
   address_space        = var.address_space
@@ -72,6 +66,8 @@ module "vm" {
   resource_type        = "vm"
   subnet_id            = module.network.subnet_id_test
   public_ip_address_id = module.publicip.public_ip_address_id
-  #vm_admin_username    = var.vm_admin_username
+  vm_admin_username    = var.vm_admin_username
+  vm_public_key        = var.vm_public_key
+  project              = var.project
 }
 
