@@ -2,14 +2,18 @@
 # Azure subscription vars
 subscription_id = "b36c07e6-4e1b-48b7-9e22-ba384d37833a"
 client_id       = "6f44cc95-d3d9-4180-a2d1-84402c5cded4"
-client_secret   = "w8H8Q~dxxy6cQeP1l9.~rpRoJFDfLs3IfLUTAbQy"
+client_secret   = "cPW8Q~Qh0OkLY3zQLlWSmyhDLD2QUwdjcZAssbt_"
 tenant_id       = "d879c1a3-4270-4d76-a9b6-dcd67e3c53dc"
 
 # Resource Group/Location
-location         = "eastus"
-resource_group   = "ensuring-qa-release-rg"
+location         = "Eastus"
+resource_group   = "ensuring-qqa-release-rg"
 application_type = "myApplication"
-# webAppName       = "ensuring-qa-releases-adedayo-webapi"
+#webAppName       = "ensuring-qa-releases-adedayo-webapi"
+
+#VM
+vm_admin_username = "adedayo"
+vm_public_key     = "/Users/Welcome/Desktop/.ssh/az_qa_id_rsa.pub"
 
 # Network
 virtual_network_name = "qa-virtual-net"
