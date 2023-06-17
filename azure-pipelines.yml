@@ -80,7 +80,81 @@ stages:
           inputs:
             command: 'apply'
             environmentServiceName: 'service-connection-azurerm'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+            workingDirectory: '$(System.DefaultWorkingDirectory)\terraform'
             allowTelemetryCollection: true
 
- 
+  - stage: Build
+    jobs:
+      - job: Build_Artifacts
+        displayName: Build Artifacts
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+        - task: ArchiveFiles@2
+          displayName: Archive Fakerestapi
+          inputs:
+            rootFolderOrFile: '$(System.DefaultWorkingDirectory)/fakerestapi'
+            includeRootFolder: false
+            archiveType: 'zip'
+            archiveFile: '$(Build.ArtifactStagingDirectory)/fakerestapi-$(Build.BuildId).zip'
+
+        - task: PublishPipelineArtifact@1
+          displayName: Publish Fakerestapi as Artifact
+          inputs:
+            targetPath: '$(Build.ArtifactStagingDirectory)/fakerestapi-$(Build.BuildId).zip'
+            artifactName: 'drop-fakerestapi'
+        - task: ArchiveFiles@2
+          displayName: Archive Selenium UI Test
+          inputs:
+              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/selenium'
+              includeRootFolder: false
+              archiveType: 'zip'
+              archiveFile: '$(Build.ArtifactStagingDirectory)/selenium-$(Build.BuildId).zip'
+        - task: PublishPipelineArtifact@1
+          displayName: Publish Selenium Artifact
+          inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)/selenium-$(Build.BuildId).zip'
+              artifactName: 'drop-selenium'
+
+  - stage: "Deploy"
+    jobs:
+      - deployment: FakeRestAPI
+        pool:
+          name: Linux VM
+        environment: 'TEST'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - task: AzureRmWebAppDeployment@4
+                displayName: 'Deploy Azure Web App'
+                inputs:
+                  ConnectionType: 'AzureRM'
+                  azureSubscription: 'service-connection-azurerm'
+                  appType: 'webApp'
+                  WebAppName: 'QA-001-AppService'
+                  packageForLinux: '$(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip'
+                  DeploymentType: zipDeploy 
+      - deployment: VMDeploy
+        displayName: Deploy Virtual Machine
+        environment:
+          name: 'TEST'
+          resourceType: VirtualMachine
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - bash: |
+                  sudo apt-get update -y
+                  sudo apt-get install python3-pip -y
+                  sudo apt-get install unzip -y
+                  sudo apt-get install -y chromium-browser
+                  sudo apt-get install -y chromium-chromedriver
+                  python3 -m pip install --upgrade pip
+                  pip3 install selenium
+                  # Install Log Analytics agent on Linux computers (only need to run once, comment when installed)
+                  # wget https://raw.githubusercontent.com/Microsoft/OMS-Agent-for-Linux/master/installer/scripts/onboard_agent.sh && sh onboard_agent.sh -w ${AZURE_LOG_ANALYTICS_ID} -s ${AZURE_LOG_ANALYTICS_PRIMARY_KEY} -d opinsights.azure.com
+                env: 
+                  AZURE_LOG_ANALYTICS_ID: $(la_workspace_id)
+                  AZURE_LOG_ANALYTICS_PRIMARY_KEY: $(la_primary_key)
+                displayName: Configure VM
