@@ -6,10 +6,12 @@ trigger:
     exclude:
     - README.md
     - .gitignore
-    - images/
+    - images
+    
 name: Azure Pipeline
 variables:
   - group: azsecret
+    #vmImageName: 'ubuntu-latest'
 stages:
   - stage: Provision
     jobs:
@@ -21,18 +23,18 @@ stages:
           displayName: Download azsecret.conf file
           name: azsecret
           inputs:
-            secureFile: 'azsecret.conf'
+            secureFile: 'azsecret.config'
         - task: InstallSSHKey@0
           displayName: Install SSH Key
           inputs:
             knownHostsEntry: 'known_hosts'
             sshPublicKey: '$(public_key)'
             sshKeySecureFile: 'az_qa_id_rsa'
-        - task: TerraformInstaller@0
+        - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
           displayName: Install Terraform
           inputs:
-            terraformVersion: 'latest'
-        - task: TerraformCLI@0
+              terraformVersion: 'latest'
+        - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
           displayName: Terraform Init
           inputs:
             command: 'init'
@@ -40,42 +42,45 @@ stages:
             commandOptions: '-backend-config=$(azsecret.secureFilePath)'
             backendType: 'azurerm'
             backendServiceArm: 'service-connection-azurerm'
-            backendAzureRmStorageAccountName: 'tfstate1064'
             backendAzureRmResourceGroupName: 'tfstate'
+            backendAzureRmStorageAccountName: 'tfstate32363'
             backendAzureRmContainerName: 'tfstate'
+            backendAzureRmKey: 'terraform.tfstate'
             allowTelemetryCollection: true
-            aiInstrumentationKey: 
-        - task: TerraformTaskV4@4
-          displayName: Terraform Validate
+          
+        - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+          displayName: Terraform Validates
           inputs:
-            provider: 'azurerm'
             command: 'validate'
-            workingDirectory: $(System.DefaultWorkingDirectory)/terraform/environments/test'
-            allowTelemetryCollection: true 
+            allowTelemetryCollection: true    
         
         - task: AzureCLI@1
           displayName: Set Environment Variables for Terraform
           inputs:
-            azureSubscription: service-connection-azurerm
+            azureSubscription: 'service-connection-azurerm'
             scriptLocation: inlineScript
-            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
             addSpnToEnvironment: true
             inlineScript: |
                 export ARM_CLIENT_ID=$(client_id)
                 export ARM_CLIENT_SECRET=$(client_secret)
                 export ARM_SUBSCRIPTION_ID=$(subscription_id)
                 export ARM_TENANT_ID=$(tenant_id)
-        - task: TerraformCLI@0
+          
+        - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
           displayName: 'Terraform Plan'
-          inputs:
-            command: 'plan'
-            environmentServiceName: 'service-connection-azurerm'
-            allowTelemetryCollection: true
-            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-        - task: TerraformCLI@0
+          inputs:        
+              command: 'plan'
+              environmentServiceName: 'service-connection-azurerm'
+              allowTelemetryCollection: true
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+              
+        - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
           displayName: Terraform Apply
           inputs:
             command: 'apply'
             environmentServiceName: 'service-connection-azurerm'
             workingDirectory: '$(System.DefaultWorkingDirectory)\terraform'
             allowTelemetryCollection: true
+
+ 
