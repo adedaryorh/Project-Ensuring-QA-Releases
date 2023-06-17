@@ -1,19 +1,18 @@
 
 # Azure subscription vars
-subscription_id = "b36c07e6-4e1b-48b7-9e22-ba384d37833a"
-client_id       = "6f44cc95-d3d9-4180-a2d1-84402c5cded4"
-client_secret   = "cPW8Q~Qh0OkLY3zQLlWSmyhDLD2QUwdjcZAssbt_"
-tenant_id       = "d879c1a3-4270-4d76-a9b6-dcd67e3c53dc"
+subscription_id = "c9555088-24ba-4e8d-affb-0b68b9a195e0"
+client_id       = "d6b86fe7-bc44-476c-878e-1137814d1243"
+client_secret   = "hyC8Q~n-0DURhby_nydCrt5s~RFMTQqhqqNaSboX"
+tenant_id       = "077803a8-a498-44f2-a067-4aa2d838ad37"
 
 # Resource Group/Location
 location         = "Eastus"
 resource_group   = "ensuring-qqa-release-rg"
-application_type = "myQaApplication"
-#webAppName       = "ensuring-qa-releases-adedayo-webapi"
+application_type = "AdexOApp"
 
 #VM
-vm_admin_username = "adedayo"
-vm_public_key     = "/Users/Welcome/Desktop/.ssh/az_qa_id_rsa.pub"
+vm_admin_username = "adedaryorh"
+vm_public_key     = "/Users/Welcome/Desktop/.ssh"
 
 # Network
 virtual_network_name = "qa-virtual-net"
