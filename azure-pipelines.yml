@@ -133,7 +133,7 @@ stages:
                   azureSubscription: 'service-connection-azurerm'
                   appType: 'webApp'
                   WebAppName: 'QA-001-AppService'
-                  packageForLinux: '$(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip'
+                  packageForLinux: '$(Pipeline.Workspace)/automatedtesting/jmeter/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip'
                   DeploymentType: zipDeploy 
       - deployment: VMDeploy
         displayName: Deploy Virtual Machine
