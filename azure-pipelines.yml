@@ -120,7 +120,7 @@ stages:
     jobs:
       - deployment: FakeRestAPI
         pool:
-          name: Linux VM
+          vmImage: 'ubuntu-latest'
         environment: 'TEST'
         strategy:
           runOnce:
