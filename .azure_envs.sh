@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 echo "Setting environment variables for Terraform"
-export ARM_SUBSCRIPTION_ID="b36c07e6-4e1b-48b7-9e22-ba384d37833a"
-export ARM_CLIENT_ID="6f44cc95-d3d9-4180-a2d1-84402c5cded4"
-export ARM_CLIENT_SECRET="cPW8Q~Qh0OkLY3zQLlWSmyhDLD2QUwdjcZAssbt_"
-export ARM_TENANT_ID="d879c1a3-4270-4d76-a9b6-dcd67e3c53dc"
+export ARM_SUBSCRIPTION_ID="c9555088-24ba-4e8d-affb-0b68b9a195e0"
+export ARM_CLIENT_ID="d6b86fe7-bc44-476c-878e-1137814d1243"
+export ARM_CLIENT_SECRET="hyC8Q~n-0DURhby_nydCrt5s~RFMTQqhqqNaSboX"
+export ARM_TENANT_ID="077803a8-a498-44f2-a067-4aa2d838ad37"
 export ARM_ACCESS_KEY="00000000-0000-0000-0000-000000000000"
 echo "Done"
-
