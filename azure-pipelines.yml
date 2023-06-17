@@ -80,7 +80,7 @@ stages:
           inputs:
             command: 'apply'
             environmentServiceName: 'service-connection-azurerm'
-            workingDirectory: '$(System.DefaultWorkingDirectory)\terraform'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
             allowTelemetryCollection: true
 
   - stage: Build
