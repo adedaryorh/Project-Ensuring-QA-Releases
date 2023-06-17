@@ -23,7 +23,7 @@ stages:
           displayName: Download azsecret.conf file
           name: azsecret
           inputs:
-            secureFile: 'azsecret.config'
+            secureFile: 'azsecret.conf'
         - task: InstallSSHKey@0
           displayName: Install SSH Key
           inputs:
