@@ -30,6 +30,14 @@ stages:
             knownHostsEntry: 'known_hosts'
             sshPublicKey: '$(public_key)'
             sshKeySecureFile: 'az_qa_id_rsa'
+        - task: Bash@3
+          displayName: 'Delete Terraform files from previous run'
+          inputs:
+            targetType: 'inline'
+            script: |
+              cd $(System.DefaultWorkingDirectory)/terraform/environments/test
+              rm -rf .terraform
+              rm -rf .terraform.lock.hcl
         - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
           displayName: Install Terraform
           inputs:
