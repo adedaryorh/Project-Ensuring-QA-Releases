@@ -101,7 +101,7 @@ stages:
         - task: PublishPipelineArtifact@1
           displayName: Publish Fakerestapi as Artifact
           inputs:
-            targetPath: '$(Build.ArtifactStagingDirectory)/fakerestapi-$(Build.BuildId).zip'
+            targetPath: '$(Build.ArtifactStagingDirectory)/automatedtesting/jmeter/fakerestapi-$(Build.BuildId).zip'
             artifactName: 'drop-fakerestapi'
         - task: ArchiveFiles@2
           displayName: Archive Selenium UI Test
@@ -153,7 +153,7 @@ stages:
                   python3 -m pip install --upgrade pip
                   pip3 install selenium
                   # Install Log Analytics agent on Linux computers (only need to run once, comment when installed)
-                  # wget https://raw.githubusercontent.com/Microsoft/OMS-Agent-for-Linux/master/installer/scripts/onboard_agent.sh && sh onboard_agent.sh -w ${AZURE_LOG_ANALYTICS_ID} -s ${AZURE_LOG_ANALYTICS_PRIMARY_KEY} -d opinsights.azure.com
+                  wget https://raw.githubusercontent.com/Microsoft/OMS-Agent-for-Linux/master/installer/scripts/onboard_agent.sh && sh onboard_agent.sh -w ${AZURE_LOG_ANALYTICS_ID} -s ${AZURE_LOG_ANALYTICS_PRIMARY_KEY} -d opinsights.azure.com
                 env: 
                   AZURE_LOG_ANALYTICS_ID: $(la_workspace_id)
                   AZURE_LOG_ANALYTICS_PRIMARY_KEY: $(la_primary_key)
