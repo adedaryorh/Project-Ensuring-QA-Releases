@@ -144,7 +144,7 @@ stages:
                   azureSubscription: 'service-connection-azurerm'
                   appType: 'webApp'
                   WebAppName: 'QA-001-AppService'
-                  packageForLinux: '/home/vsts/work/1/adedaryorh.Project-Ensuring-QA-Releases/drop-fakerestapi/306-fakerestapi.zip'
+                  packageForLinux: '/home/vsts/work/1/adedaryorh.Project-Ensuring-QA-Releases/drop-fakerestapi/307-fakerestapi.zip'
                   DeploymentType: zipDeploy 
       - deployment: VMDeploy
         displayName: Deploy Virtual Machine
