@@ -111,6 +111,9 @@ stages:
           inputs:
             targetPath: '$(Build.ArtifactStagingDirectory)/automatedtesting/jmeter/fakerestapi-$(Build.BuildId).zip'
             artifactName: 'drop-fakerestapi'
+        - script: |
+              echo "Artifact path: $(Build.ArtifactStagingDirectory)/automatedtesting/jmeter/fakerestapi-$(Build.BuildId).zip"
+              displayName: Print Artifact Path
         - task: ArchiveFiles@2
           displayName: Archive Selenium UI Test
           inputs:
